@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+* {
+  transition-timing-function: linear;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  font-family: theme(fontFamily.poppins);
+}
+
+body *::-webkit-scrollbar {
+  display: none;
+}
