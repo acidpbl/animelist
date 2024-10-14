@@ -11,7 +11,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Router>
       <Routes>
-        <Route path="/animelist" element={<App />}>
+        <Route path="/" element={<App />}>
           <Route path="" element={<AnimeList />} />
           <Route path="genres" element={<Genres />} />
         </Route>

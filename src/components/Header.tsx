@@ -63,17 +63,17 @@ export function Header() {
       >
         AnimeList
       </a>
-      <div className="flex gap-1 px-2">
-        <a className={twMerge("font-medium", styles.button.secondary)}>A - Z</a>
+      <div className="flex w-1/2 justify-around px-2">
+        {/* <a className={twMerge("font-medium", styles.button.secondary)}>A - Z</a> */}
         <a
-          href="/animelist/genres"
+          href="#/genres"
           className={twMerge("font-medium", styles.button.secondary)}
         >
           Gêneros
         </a>
-        <a className={twMerge("font-medium", styles.button.secondary)}>
-          Aleatório
-        </a>
+        {/* <a className={twMerge("font-medium", styles.button.secondary)}> */}
+        {/* Aleatório */}
+        {/* </a> */}
         <form
           className={twMerge(
             "flex rounded overflow-hidden focus-within:outline focus-within:outline-2",
