@@ -9,6 +9,8 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   font-family: theme(fontFamily.poppins);
+  -moz-user-select: none;
+  user-select: none;
 }
 
 body *::-webkit-scrollbar {

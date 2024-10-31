@@ -63,20 +63,8 @@ export function Header() {
       >
         AnimeList
       </a>
-      <div className="flex gap-2 px-2">
-        <a className={twMerge("font-medium", styles.button.secondary)}>A - Z</a>
-        <a
-          href="#/genres"
-          className={twMerge("font-medium", styles.button.secondary)}
-        >
-          Genres
-        </a>
-        <a className={twMerge("font-medium", styles.button.secondary)}>
-          Random
-        </a>
-      </div>
       <div className="flex gap-2 px-2 w-1/3 justify-end">
-        <form
+        <div
           className={twMerge(
             "flex rounded overflow-hidden focus-within:outline focus-within:outline-2 w-2/3",
             styles.inputWrapper
@@ -91,6 +79,7 @@ export function Header() {
             placeholder="Find your next anime here..."
           />
           <button
+            type="button"
             className={twMerge(
               "py-1 px-2 focus:outline-none",
               styles.inputButton
@@ -98,8 +87,9 @@ export function Header() {
           >
             <PiMagnifyingGlassBold />
           </button>
-        </form>
+        </div>
         <button
+          type="button"
           className={twMerge(styles.button.primary)}
           onClick={() => {
             toggleTheme();
