@@ -22,7 +22,21 @@ const bgColors = [
   "bg-pink-600",
   "bg-rose-600",
 ];
+let currentColors: string[] = [];
+let colorIndex = 0;
+
+function generateUniqueColors() {
+  currentColors = [...bgColors].sort(() => Math.random() - 0.5).slice(0, 6);
+  colorIndex = 0;
+}
 
 export function getRandomColor() {
-  return bgColors[Math.floor(Math.random() * bgColors.length)];
+  if (colorIndex === 0) {
+    generateUniqueColors();
+  }
+
+  const color = currentColors[colorIndex];
+  colorIndex = (colorIndex + 1) % 6;
+
+  return color;
 }

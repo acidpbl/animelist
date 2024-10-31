@@ -10,6 +10,7 @@ import Anime from "../types/Anime";
 import { AnimeCard } from "../components/AnimeCard";
 import { twMerge } from "tailwind-merge";
 import ThemeContext from "../ThemeContext";
+import { Loading } from "./Loading";
 
 type ThemeStyles = {
   bg: string;
@@ -25,65 +26,69 @@ const AnimeList = () => {
 
   const theme = useContext(ThemeContext)?.theme;
 
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+
       const cachedPopular = getCachedData("popularAnimes");
       const cachedTop = getCachedData("topAnimes");
       const cachedUpcoming = getCachedData("upcomingAnimes");
       const cachedAiring = getCachedData("airingAnimes");
 
       try {
-        const fetchPopular = cachedPopular
-          ? Promise.resolve(cachedPopular)
-          : getPopularAnimes();
-        const fetchTop = cachedTop
-          ? Promise.resolve(cachedTop)
-          : getTopAnimes();
-        const fetchUpcoming = cachedUpcoming
-          ? Promise.resolve(cachedUpcoming)
-          : getUpcomingAnimes();
-        const fetchAiring = cachedAiring
-          ? Promise.resolve(cachedAiring)
-          : getAiringAnimes();
+        if (!cachedPopular) {
+          const popular = await getPopularAnimes();
+          setPopularAnimes(popular.data);
+          setCachedData("popularAnimes", popular);
+          await delay(1000);
+        } else {
+          setPopularAnimes(cachedPopular.data);
+        }
 
-        const popular = await fetchPopular;
-        setPopularAnimes(popular.data);
-        setTimeout(() => {
-          if (!cachedPopular) setCachedData("popularAnimes", popular);
-        }, 2000);
+        if (!cachedTop) {
+          const top = await getTopAnimes();
+          setTopAnimes(top.data);
+          setCachedData("topAnimes", top);
+          await delay(1000);
+        } else {
+          setTopAnimes(cachedTop.data);
+        }
 
-        const top = await fetchTop;
-        setTopAnimes(top.data);
-        setTimeout(() => {
-          if (!cachedTop) setCachedData("topAnimes", top);
-        }, 2000);
+        if (!cachedUpcoming) {
+          const upcoming = await getUpcomingAnimes();
+          setUpcomingAnimes(upcoming.data);
+          setCachedData("upcomingAnimes", upcoming);
+          await delay(1000);
+        } else {
+          setUpcomingAnimes(cachedUpcoming.data);
+        }
 
-        const upcoming = await fetchUpcoming;
-        setUpcomingAnimes(upcoming.data);
-        setTimeout(() => {
-          if (!cachedUpcoming) setCachedData("upcomingAnimes", upcoming);
-        }, 2000);
-
-        const airing = await fetchAiring;
-        setAiringAnimes(airing.data);
-        setTimeout(() => {
-          if (!cachedAiring) setCachedData("airingAnimes", airing);
-        }, 2000);
+        if (!cachedAiring) {
+          const airing = await getAiringAnimes();
+          setAiringAnimes(airing.data);
+          setCachedData("airingAnimes", airing);
+          await delay(1000);
+        } else {
+          setAiringAnimes(cachedAiring.data);
+        }
       } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        console.error("Error searching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 10 * 60 * 1000);
+
+    const interval = setInterval(fetchData, 30 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return <Loading />;
   }
 
   const styles: ThemeStyles = {
@@ -100,11 +105,16 @@ const AnimeList = () => {
   };
 
   return (
-    <section className={twMerge("flex flex-col gap-4 px-4 pt-20", styles.bg)}>
+    <section
+      className={twMerge(
+        "flex flex-col gap-4 px-4 pt-20 min-h-screen",
+        styles.bg
+      )}
+    >
       <section className="flex flex-col gap-4 px-4 p">
         <div className="flex flex-col gap-2">
           <h1 className={twMerge("font-semibold text-lg pl-2", styles.title)}>
-            Popular desde sempre
+            Populat All Time
           </h1>
           <div className="flex gap-1 overflow-x-scroll overflow-y-hidden scroll-smooth snap-mandatory p-2">
             {topAnimes
@@ -116,7 +126,7 @@ const AnimeList = () => {
         </div>
         <div className="flex flex-col gap-2">
           <h1 className={twMerge("font-semibold text-lg pl-2", styles.title)}>
-            Melhor avaliados
+            Highest Rating
           </h1>
           <div className="flex gap-1 overflow-x-scroll overflow-y-hidden scroll-smooth snap-mandatory p-2">
             {popularAnimes
@@ -128,7 +138,7 @@ const AnimeList = () => {
         </div>
         <div className="flex flex-col gap-2">
           <h1 className={twMerge("font-semibold text-lg pl-2", styles.title)}>
-            Em lançamento
+            Airing
           </h1>
           <div className="flex gap-1 overflow-x-scroll overflow-y-hidden scroll-smooth snap-mandatory p-2">
             {airingAnimes
@@ -140,7 +150,7 @@ const AnimeList = () => {
         </div>
         <div className="flex flex-col gap-2">
           <h1 className={twMerge("font-semibold text-lg pl-2", styles.title)}>
-            Lançamentos futuros
+            Upcoming
           </h1>
           <div className="flex gap-1 overflow-x-scroll overflow-y-hidden scroll-smooth snap-mandatory p-2">
             {upcomingAnimes.map((anime, index) => (

@@ -6,10 +6,14 @@ import { GenreCard } from "../components/GenreCard";
 import ThemeContext from "../ThemeContext";
 import { twMerge } from "tailwind-merge";
 import { getRandomColor } from "../functions/Colors";
+import { Loading } from "./Loading";
+import { PiCaretLeft } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 
 type ThemeStyles = {
   bg: string;
   title: string;
+  btn: string;
 };
 
 function Genres() {
@@ -19,6 +23,12 @@ function Genres() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const theme = useContext(ThemeContext)?.theme;
+
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +45,7 @@ function Genres() {
           if (!cachedAnimeGenres) setCachedData("animeGenres", animeGenres);
         }, 2000);
       } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        console.error("Error searching data:", error);
       } finally {
         setLoading(false);
       }
@@ -48,19 +58,22 @@ function Genres() {
   }, []);
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return <Loading />;
   }
 
   const styles: ThemeStyles = {
     bg: "",
     title: "",
+    btn: "",
     ...(theme === "light" && {
       bg: "bg-indigo-100",
       title: "text-indigo-900",
+      btn: "text-indigo-800 hover:text-indigo-900 border-indigo-800 hover:border-indigo-900",
     }),
     ...(theme === "dark" && {
       bg: "bg-neutral-800",
       title: "text-indigo-100",
+      btn: "text-indigo-600 hover:text-indigo-700 border-indigo-600 hover:border-indigo-700",
     }),
   };
 
@@ -71,9 +84,25 @@ function Genres() {
         styles.bg
       )}
     >
-      <h1 className={twMerge("font-semibold text-lg", styles.title)}>
-        Gêneros
-      </h1>
+      <div className="w-full px-24 flex items-center justify-between">
+        <button
+          onClick={handleGoBack}
+          className={twMerge(
+            "flex gap-2 items-center border-2 py-1 px-2 rounded transition-all ease-linear",
+            styles.btn
+          )}
+        >
+          <PiCaretLeft size={24} className="transition-all ease-linear" />
+          <span className="transition-all ease-linear">Back</span>
+        </button>
+        <h1 className={twMerge("font-semibold text-lg", styles.title)}>
+          Genres
+        </h1>
+        <a className="flex gap-2 items-center border-2 py-1 px-2 rounded opacity-0 select-none">
+          <PiCaretLeft size={24} />
+          <span>Back</span>
+        </a>
+      </div>
       <div className="p-2 -mt-2 grid grid-cols-6 gap-2 overflow-y-scroll">
         {animeGenres
           .filter((genre) => !ADULT_GENRES.includes(genre.name))

@@ -38,7 +38,7 @@ export function AnimeCard(props: AnimeCardProps) {
               href=""
               className="text-[10px] font-jetbrains text-indigo-400 underline"
             >
-              {`ver mais ->`}
+              {`see more ->`}
             </a>
           </div>
           <div className="w-full flex flex-wrap gap-0.5">

@@ -59,34 +59,36 @@ export function Header() {
     >
       <a
         href="/animelist"
-        className={twMerge("text-lg font-bold", styles.span)}
+        className={twMerge("text-lg font-bold w-1/3", styles.span)}
       >
         AnimeList
       </a>
-      <div className="flex w-1/2 justify-around px-2">
-        {/* <a className={twMerge("font-medium", styles.button.secondary)}>A - Z</a> */}
+      <div className="flex gap-2 px-2">
+        <a className={twMerge("font-medium", styles.button.secondary)}>A - Z</a>
         <a
           href="#/genres"
           className={twMerge("font-medium", styles.button.secondary)}
         >
-          Gêneros
+          Genres
         </a>
-        {/* <a className={twMerge("font-medium", styles.button.secondary)}> */}
-        {/* Aleatório */}
-        {/* </a> */}
+        <a className={twMerge("font-medium", styles.button.secondary)}>
+          Random
+        </a>
+      </div>
+      <div className="flex gap-2 px-2 w-1/3 justify-end">
         <form
           className={twMerge(
-            "flex rounded overflow-hidden focus-within:outline focus-within:outline-2",
+            "flex rounded overflow-hidden focus-within:outline focus-within:outline-2 w-2/3",
             styles.inputWrapper
           )}
         >
           <input
             type="text"
             className={twMerge(
-              "bg-transparent focus:outline-none pl-2",
+              "bg-transparent focus:outline-none pl-2 text-sm w-full",
               styles.input
             )}
-            placeholder="Procure o anime aqui"
+            placeholder="Find your next anime here..."
           />
           <button
             className={twMerge(
@@ -97,15 +99,15 @@ export function Header() {
             <PiMagnifyingGlassBold />
           </button>
         </form>
+        <button
+          className={twMerge(styles.button.primary)}
+          onClick={() => {
+            toggleTheme();
+          }}
+        >
+          {theme == "light" ? <PiMoonFill /> : <PiSunFill />}
+        </button>
       </div>
-      <button
-        className={twMerge(styles.button.primary)}
-        onClick={() => {
-          toggleTheme();
-        }}
-      >
-        {theme == "light" ? <PiMoonFill /> : <PiSunFill />}
-      </button>
     </header>
   );
 }

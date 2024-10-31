@@ -5,3 +5,15 @@ export function ellipsis(texto: string, maxCaracteres: number): string {
     return texto;
   }
 }
+
+export function capitalizeAll(input: string): string {
+  return input
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+export function capitalizeFirst(input: string): string {
+  if (input.length === 0) return input;
+  return input.charAt(0).toUpperCase() + input.slice(1);
+}

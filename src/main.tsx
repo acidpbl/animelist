@@ -6,6 +6,7 @@ import Genres from "./pages/Genres.tsx";
 import "./index.css";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import AnimeList from "./pages/AnimeList.tsx";
+import { AnimeByGenre } from "./pages/AnimeByGenre.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<App />}>
           <Route path="" element={<AnimeList />} />
           <Route path="genres" element={<Genres />} />
+          <Route path="genres/:genre" element={<AnimeByGenre />} />
         </Route>
       </Routes>
     </Router>
